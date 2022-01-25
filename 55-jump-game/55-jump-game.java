@@ -1,21 +1,13 @@
 class Solution {
-    public boolean canJump(int[] a) 
+    public boolean canJump(int[] A) 
     {
-        int n=a.length;
-        if(n==1) return true;
-        boolean[] dp=new boolean[n+1];
-        dp[0]=true;
-        
-        for(int i=1;i<n;i++)
+        int n=A.length;
+        int last=n-1,i,j;
+        for(i=n-2;i>=0;i--)
         {
-            for(int j=0;j<i;j++)
-            {
-                if(dp[j]==true && a[j]+j>=i)
-                {
-                    dp[i]=true; break;
-                }
-            }
+            if(i+A[i]>=last)last=i;
         }
-        return dp[n-1];
+        return last<=0;
+        
     }
 }
