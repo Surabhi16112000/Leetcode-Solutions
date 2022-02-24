@@ -9,58 +9,51 @@
  * }
  */
 class Solution {
-    public ListNode sortList(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        int n = 0;
-        while (head != null) {
-            head = head.next;
-            n++;
-        }
+    public ListNode sortList(ListNode head) 
+    {
+        if(head==null || head.next==null) return head;
         
-        for (int step = 1; step < n; step =step*2) {
-            ListNode prev = dummy;
-            ListNode cur = dummy.next;
-            while (cur != null) {
-                ListNode left = cur;
-                ListNode right = split(left, step);
-                cur = split(right, step);
-                prev = merge(left, right, prev);
-            } 
-        }
+        ListNode slow=head, fast=head, temp=head;
         
-        return dummy.next;
+        while(fast!=null && fast.next!=null)
+        {
+            temp=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        temp.next=null;
+        
+        ListNode left=sortList(head);
+        ListNode right=sortList(slow);
+        
+        return merge(left,right);
     }
     
-    private ListNode split(ListNode head, int step) {
-        if (head == null) return null;
-    	
-        for (int i = 1; head.next != null && i < step; i++) {
-            head = head.next;
-        }
+    ListNode merge(ListNode l, ListNode r)
+    {
+        if(l==null && r!=null) return r;
+        if(l!=null && r==null) return l;
         
-        ListNode right = head.next;
-        head.next = null;
-        return right;
-    }
-    
-    private ListNode merge(ListNode left, ListNode right, ListNode prev) {
-        ListNode cur = prev;
-        while (left != null && right != null) {
-            if (left.val < right.val) {
-                cur.next = left;
-                left = left.next;
-            }
-            else {
-                cur.next = right;
-                right = right.next;
-            }
-            cur = cur.next;
-        }
+        ListNode temp=new ListNode(0);
+        ListNode ans=temp;
         
-        if (left != null) cur.next = left;
-        else if (right != null) cur.next = right;
-        while (cur.next != null) cur = cur.next;
-        return cur;
+        while(l!=null && r!=null)
+        {
+            if(l.val<r.val)
+            {
+                temp.next=l;
+                l=l.next;
+            }
+            else
+            {
+                temp.next=r;
+                r=r.next;
+            }
+            temp=temp.next;
+        }
+        if(l!=null) temp.next=l;
+        else if(r!=null) temp.next=r;
+        
+        return ans.next;
     }
 }
