@@ -18,7 +18,7 @@ class Solution {
             n++;
         }
         
-        for (int step = 1; step < n; step <<= 1) {
+        for (int step = 1; step < n; step =step*2) {
             ListNode prev = dummy;
             ListNode cur = dummy.next;
             while (cur != null) {
