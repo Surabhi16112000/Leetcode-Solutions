@@ -47,7 +47,7 @@ class Solution {
         {
             while(!q.isEmpty() && q.peek()<=i-k)
             {
-                q.pollFirst();
+                q.poll();
             }
             while(!q.isEmpty() && arr[q.peekLast()]<arr[i])
             {
